@@ -23,8 +23,6 @@ const account = {
    * Принимает сумму и тип транзакции.
    */
   createTransaction(amount, type) {
-    const cObj = {};
-    this.transactions.push(cObj);
     return { amount, type, id: this.transactions.length + 1 };
   },
 
@@ -51,7 +49,7 @@ const account = {
    */
   withdraw(amount) {
     if (amount > this.balance) {
-      alert`Снятие суммы ${amount}  у.е. невозможно, недостаточно средств`;
+      alert(`Снятие суммы ${amount} невозможно, недостаточно средств`);
       return;
     }
     this.balance -= amount;
@@ -71,7 +69,10 @@ const account = {
    */
   getTransactionDetails(id) {
     for (let i = 0; i < this.transactions.length; i++) {
-      const cObj = this.transactions[i];
+      if (this.transactions[i].id === id) {
+        return this.transactions[i];
+      }
+      // const cObj = this.transactions[i];
     }
   },
 
@@ -83,7 +84,7 @@ const account = {
     let total = 0;
     for (let i = 0; i < this.transactions.length; i++) {
       const cObj = this.transactions[i];
-      if (cObj.type == type) {
+      if (cObj.type === type) {
         total += cObj.amount;
       }
     }
@@ -92,12 +93,20 @@ const account = {
 };
 
 // ПРОВЕРОЧНЫЙ КОД
-account.deposit(100);
 account.deposit(200);
 account.withdraw(100);
-// account.withdraw(500);
-account.getTransactionDetails();
-account.getTransactionTotal();
-account.getBalance();
+account.deposit(100);
+account.withdraw(70);
 
-console.log(account.getTransactionTotal(deposit));
+// account.getTransactionDetails();
+// account.getTransactionTotal();
+// account.getBalance();
+
+console.table(account.transactions);
+
+console.log(account.getTransactionDetails(1));
+console.log(account.getTransactionDetails(4));
+console.log(account.getTransactionTotal(Transaction.DEPOSIT));
+console.log(account.getTransactionTotal('withdraw'));
+
+// console.log(account.getTransactionTotal(deposit));
